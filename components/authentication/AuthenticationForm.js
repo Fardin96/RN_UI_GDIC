@@ -1,15 +1,24 @@
-import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import {
+  ScrollView,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 import React, {useRef, useState} from 'react';
 
 import {Input, Button} from '@rneui/themed';
-import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
+import Icon from 'react-native-vector-icons/FontAwesome';
 
 const AuthenticationForm = ({errorMessage, title, btnTitle}) => {
-  // const [Name, setName] = useState('');
-  // const [Password, setPassword] = useState('');
+  const [hidden, setHidden] = useState(true);
 
   const nameRef = useRef(null);
   const passwordRef = useRef(null);
+
+  const eyePressHandler = () => {
+    setHidden(prev => !prev);
+  };
 
   const handleSubmit = e => {
     e.preventDefault();
@@ -29,7 +38,7 @@ const AuthenticationForm = ({errorMessage, title, btnTitle}) => {
   };
 
   return (
-    <KeyboardAwareScrollView
+    <ScrollView
       style={styles.root.style}
       contentContainerStyle={styles.root.containerStyle}>
       <Text style={styles.titleTop}>{title}</Text>
@@ -46,6 +55,18 @@ const AuthenticationForm = ({errorMessage, title, btnTitle}) => {
         <Input
           ref={passwordRef}
           onChangeText={e => (passwordRef.current.value = e)}
+          secureTextEntry={hidden}
+          rightIcon={
+            hidden ? (
+              <TouchableOpacity onPress={eyePressHandler}>
+                <Icon name="eye-slash" size={30} color="green" />
+              </TouchableOpacity>
+            ) : (
+              <TouchableOpacity onPress={eyePressHandler}>
+                <Icon name="eye" size={30} color="#900" />
+              </TouchableOpacity>
+            )
+          }
           // onSubmitEditing={() => console.log(passwordRef.current.value)}
           placeholder="Enter Password"
           errorStyle={styles.error}
@@ -74,7 +95,7 @@ const AuthenticationForm = ({errorMessage, title, btnTitle}) => {
       ) : (
         <></>
       )}
-    </KeyboardAwareScrollView>
+    </ScrollView>
   );
 };
 
@@ -84,7 +105,6 @@ const styles = StyleSheet.create({
   root: {
     style: {width: '100%'},
     containerStyle: {
-      flex: 1,
       width: '100%',
       alignItems: 'center',
       justifyContent: 'center',
@@ -103,7 +123,7 @@ const styles = StyleSheet.create({
   titleTop: {
     // width: '100%',
     // alignItems: 'center',
-    marginTop: 100,
+    marginVertical: 100,
     fontSize: 50,
     color: 'green',
     // backgroundColor: 'green',
@@ -112,7 +132,8 @@ const styles = StyleSheet.create({
     width: '100%',
     flexDirection: 'row',
     justifyContent: 'center',
-    marginBottom: 100,
+    // marginTop: 100,
+    marginVertical: 115,
     alignItems: 'center',
     // borderWidth: 1,
     // borderColor: 'blue',

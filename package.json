@@ -14,7 +14,6 @@
     "@rneui/themed": "^4.0.0-rc.8",
     "react": "18.2.0",
     "react-native": "0.73.2",
-    "react-native-keyboard-aware-scroll-view": "^0.9.5",
     "react-native-safe-area-context": "^4.8.2",
     "react-native-vector-icons": "^10.0.3"
   },
