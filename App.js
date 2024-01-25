@@ -10,6 +10,11 @@ import React from 'react';
 import {StyleSheet, Text, View} from 'react-native';
 import Authentication from './screens/Authentication';
 
+// console.log('+-------------SERVER------------------+');
+// console.log('MONGODB_URI ', uri);
+// console.log('PORT', port);
+// console.log('+-------------------------------------+');
+
 function App() {
   return (
     <View style={styles.root}>
