@@ -67,3 +67,5 @@ yarn-error.log
 
 # @env
 backend/.env
+
+test.txt
