@@ -1,15 +1,8 @@
 import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import React from 'react';
 import Icon from 'react-native-vector-icons/Feather';
-// import { CARD_WIDTH } from "../constants/constants";
 
-// key={idx}
-//                 name={i.employee_name}
-//                 id={i.id}
-//                 age={i.employee_age}
-//                 salary={i.employee_salary}
-
-const Card = ({name, id, age, salary}) => {
+const Card = ({name, id, age, salary, navigation}) => {
   return (
     <View style={styles.root}>
       <View style={styles.content}>
@@ -20,7 +13,16 @@ const Card = ({name, id, age, salary}) => {
           <Text style={styles.details}>{`Salary: ${salary}`}</Text>
         </View>
 
-        <TouchableOpacity onPress={() => {}}>
+        {/* pass the id value from here */}
+        <TouchableOpacity
+          onPress={() => {
+            navigation.navigate('editInfo', {
+              id,
+              name,
+              age,
+              salary,
+            });
+          }}>
           <Icon name="edit" size={30} color="#900" />
         </TouchableOpacity>
       </View>

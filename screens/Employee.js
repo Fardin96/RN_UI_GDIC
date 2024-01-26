@@ -1,32 +1,32 @@
 import {ScrollView, StyleSheet, TouchableOpacity, View} from 'react-native';
-import React, {useEffect, useRef} from 'react';
+import React, {useEffect, useState} from 'react';
 import Icon from 'react-native-vector-icons/Ionicons';
 import {Button} from '@rneui/themed';
 import {Text} from 'react-native';
 import Card from '../components/employees/Card';
 
-const Employee = ({navigation}) => {
-  // let employees = [];
-  const employeesRef = useRef({});
+const Employee = ({navigation, route}) => {
+  const {id, name, age, salary} = route.params;
+
+  const [employees, setEmployees] = useState([]);
 
   useEffect(() => {
     (async () => {
       try {
+        // todo:
+        // - create api url @ .env
         const response = await fetch(
           'https://dummy.restapiexample.com/api/v1/employees',
         );
 
         const resData = await response.json();
-        employeesRef.current = resData.data;
-        console.log('employees: ', employeesRef.current);
+        setEmployees(resData.data);
       } catch (error) {
         // --list & handle errors
         console.log('error fetching employee list: ', error);
       }
     })();
   }, []);
-
-  let employees = employeesRef.current;
 
   return (
     <View style={styles.root}>
@@ -44,7 +44,7 @@ const Employee = ({navigation}) => {
         <TouchableOpacity
           style={styles.icContainer}
           onPress={() => {
-            // navigation.navigate('login');
+            navigation.navigate('login');
           }}>
           <Icon name="exit-outline" size={30} color="#900" />
         </TouchableOpacity>
@@ -62,10 +62,11 @@ const Employee = ({navigation}) => {
             return (
               <Card
                 key={idx}
-                name={i.employee_name}
+                name={i.id === id ? name : i.employee_name}
                 id={i.id}
-                age={i.employee_age}
-                salary={i.employee_salary}
+                age={i.id === id ? name : i.employee_age}
+                salary={i.id === id ? name : i.employee_salary}
+                navigation={navigation}
               />
             );
           })
