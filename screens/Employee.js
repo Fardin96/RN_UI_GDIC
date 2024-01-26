@@ -3,8 +3,8 @@ import React from 'react';
 
 const Employee = () => {
   return (
-    <View>
-      <Text>Employee</Text>
+    <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
+      <Text style={{color: 'black'}}>Employee</Text>
     </View>
   );
 };

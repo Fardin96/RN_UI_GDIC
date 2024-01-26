@@ -3,16 +3,26 @@ import React, {useState} from 'react';
 import AuthenticationForm from './AuthenticationForm';
 
 import {API_URL} from '@env';
+import {userValidation} from '../../functions/validation';
 
 const Register = ({navigation}) => {
-  const [user, setUser] = useState({});
+  const [err, setErr] = useState('');
 
   const navHandler = () => {
     navigation.navigate('login');
   };
 
   const onSubmit = userData => {
-    setUser(userData);
+    const user = {
+      name: userData.name,
+      password: userData.password,
+    };
+
+    // input validation
+    if (!userValidation(user)) {
+      setErr('Please enter valid name and password');
+      return;
+    }
 
     (async () => {
       try {
@@ -40,10 +50,11 @@ const Register = ({navigation}) => {
         const resData = await res.json();
         // console.log('expecting a token: ', resData);
 
-        // TODO:
-        // handle duplicate user!
         if (resData.token === '') {
-          console.log('error in REGISTER SCREEN: ', resData);
+          // console.log('error in REGISTER SCREEN: ', resData);
+          setErr('Please enter valid name and password');
+        } else if (resData === 'duplicate user!') {
+          setErr('User already exists!');
         } else {
           navHandler();
         }
@@ -64,6 +75,7 @@ const Register = ({navigation}) => {
       btnTitle={'Register'}
       onSubmit={onSubmit}
       navHandler={navHandler}
+      err={err}
     />
   );
 };

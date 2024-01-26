@@ -15,6 +15,7 @@ const AuthenticationForm = ({
   btnTitle,
   onSubmit,
   navHandler,
+  err,
 }) => {
   const nameRef = useRef(null);
   const passwordRef = useRef(null);
@@ -46,7 +47,7 @@ const AuthenticationForm = ({
         <Input
           ref={nameRef}
           onChangeText={e => (nameRef.current.value = e)}
-          placeholder="Enter Name"
+          placeholder="Name (3-20 characters, alphanumeric)"
           errorStyle={styles.error}
           errorMessage={errorMessage ? errorMessage : ''}
         />
@@ -65,10 +66,12 @@ const AuthenticationForm = ({
               </TouchableOpacity>
             )
           }
-          placeholder="Enter Password"
+          placeholder="Password (8-32 characters, atleast 1 digit)"
           errorStyle={styles.error}
           errorMessage={errorMessage ? errorMessage : ''}
         />
+
+        {err !== '' ? <Text style={styles.err}>{err}</Text> : <Text />}
 
         <Button
           title={btnTitle}
@@ -146,4 +149,5 @@ const styles = StyleSheet.create({
       marginTop: 80,
     },
   },
+  err: {color: 'red'},
 });
