@@ -10,6 +10,8 @@ import React, {useRef, useState} from 'react';
 import {Input, Button} from '@rneui/themed';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
+import {API_URL} from '@env';
+
 const AuthenticationForm = ({errorMessage, title, btnTitle}) => {
   const [hidden, setHidden] = useState(true);
 
@@ -35,6 +37,31 @@ const AuthenticationForm = ({errorMessage, title, btnTitle}) => {
     // passwordRef.current.value = '';
 
     // Additional registration logic
+    (async () => {
+      try {
+        const api = `${API_URL}/newUser`;
+        // console.log("the api is :", api);
+
+        const data = {
+          name: name,
+          password: password,
+        };
+
+        const response = await fetch(api, {
+          method: 'POST',
+          headers: {
+            Accept: 'application/json',
+            'Content-type': 'application/json',
+          },
+          body: JSON.stringify(data),
+        });
+
+        const userData = await response.json();
+        console.log("is this the user's data? ", userData);
+      } catch (error) {
+        console.log('Error fetching donors: ', error);
+      }
+    })();
   };
 
   return (
