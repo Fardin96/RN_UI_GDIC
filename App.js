@@ -14,6 +14,7 @@ import Register from './components/authentication/Register';
 import Login from './components/authentication/Login';
 import Employee from './screens/Employee';
 import EditInfo from './components/employees/EditInfo';
+import AddEmployee from './components/employees/AddEmployee';
 
 const Stack = createNativeStackNavigator();
 
@@ -32,7 +33,7 @@ function App() {
         <Stack.Screen name="login" component={Login} />
         <Stack.Screen name="employee" component={Employee} />
         <Stack.Screen name="editInfo" component={EditInfo} />
-        {/* <Stack.Screen name="employee" component={Employee} /> */}
+        <Stack.Screen name="addEmployee" component={AddEmployee} />
       </Stack.Navigator>
     </NavigationContainer>
 

@@ -6,7 +6,7 @@ import {Text} from 'react-native';
 import Card from '../components/employees/Card';
 
 const Employee = ({navigation, route}) => {
-  const {id, name, age, salary} = route.params;
+  const {id, name, age, salary} = route.params || {};
 
   const [employees, setEmployees] = useState([]);
 
@@ -38,7 +38,7 @@ const Employee = ({navigation, route}) => {
           buttonStyle={styles.btn.buttonStyle}
           titleStyle={styles.btn.titleStyle}
           containerStyle={styles.btn.containerStyle}
-          onPress={() => {}}
+          onPress={() => navigation.navigate('addEmployee')}
         />
 
         <TouchableOpacity
@@ -64,8 +64,8 @@ const Employee = ({navigation, route}) => {
                 key={idx}
                 name={i.id === id ? name : i.employee_name}
                 id={i.id}
-                age={i.id === id ? name : i.employee_age}
-                salary={i.id === id ? name : i.employee_salary}
+                age={i.id === id ? age : i.employee_age}
+                salary={i.id === id ? salary : i.employee_salary}
                 navigation={navigation}
               />
             );
