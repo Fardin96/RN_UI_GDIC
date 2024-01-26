@@ -10,9 +10,9 @@ import React, {useRef, useState} from 'react';
 import {Input, Button} from '@rneui/themed';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
-import {API_URL} from '@env';
+// import {API_URL} from '@env';
 
-const AuthenticationForm = ({errorMessage, title, btnTitle}) => {
+const AuthenticationForm = ({errorMessage, title, btnTitle, getData}) => {
   const [hidden, setHidden] = useState(true);
 
   const nameRef = useRef(null);
@@ -23,46 +23,18 @@ const AuthenticationForm = ({errorMessage, title, btnTitle}) => {
   };
 
   const handleSubmit = e => {
-    e.preventDefault();
+    // e.preventDefault();
 
     // Perform registration logic here
     const name = nameRef.current.value;
     const password = passwordRef.current.value;
 
-    // console.log(name);
-    // console.log(password);
+    const data = {
+      name: name,
+      password: password,
+    };
 
-    // Reset input fields
-    // nameRef.current.value = '';
-    // passwordRef.current.value = '';
-
-    // Additional registration logic
-    (async () => {
-      try {
-        const api = `${API_URL}/newUser`;
-        console.log('the api is :', api);
-
-        const data = {
-          name: name,
-          password: password,
-        };
-        console.log('the data is :', data);
-
-        const response = await fetch(api, {
-          method: 'POST',
-          headers: {
-            Accept: 'application/json',
-            'Content-type': 'application/json',
-          },
-          body: JSON.stringify(data),
-        });
-
-        const userData = await response.json();
-        console.log('expecting a token: ', userData);
-      } catch (error) {
-        console.log('Error fetching donors: ', error);
-      }
-    })();
+    getData(data);
   };
 
   return (
