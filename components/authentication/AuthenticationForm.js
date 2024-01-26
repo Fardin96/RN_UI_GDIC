@@ -6,26 +6,25 @@ import {
   View,
 } from 'react-native';
 import React, {useRef, useState} from 'react';
-
-import {Input, Button} from '@rneui/themed';
 import Icon from 'react-native-vector-icons/FontAwesome';
+import {Input, Button} from '@rneui/themed';
 
-// import {API_URL} from '@env';
-
-const AuthenticationForm = ({errorMessage, title, btnTitle, getData}) => {
-  const [hidden, setHidden] = useState(true);
-
+const AuthenticationForm = ({
+  errorMessage,
+  title,
+  btnTitle,
+  onSubmit,
+  navHandler,
+}) => {
   const nameRef = useRef(null);
   const passwordRef = useRef(null);
 
+  const [hidden, setHidden] = useState(true);
   const eyePressHandler = () => {
     setHidden(prev => !prev);
   };
 
-  const handleSubmit = e => {
-    // e.preventDefault();
-
-    // Perform registration logic here
+  const handleSubmit = () => {
     const name = nameRef.current.value;
     const password = passwordRef.current.value;
 
@@ -34,7 +33,7 @@ const AuthenticationForm = ({errorMessage, title, btnTitle, getData}) => {
       password: password,
     };
 
-    getData(data);
+    onSubmit(data);
   };
 
   return (
@@ -47,7 +46,6 @@ const AuthenticationForm = ({errorMessage, title, btnTitle, getData}) => {
         <Input
           ref={nameRef}
           onChangeText={e => (nameRef.current.value = e)}
-          // onSubmitEditing={() => console.log(nameRef.current.value)}
           placeholder="Enter Name"
           errorStyle={styles.error}
           errorMessage={errorMessage ? errorMessage : ''}
@@ -67,7 +65,6 @@ const AuthenticationForm = ({errorMessage, title, btnTitle, getData}) => {
               </TouchableOpacity>
             )
           }
-          // onSubmitEditing={() => console.log(passwordRef.current.value)}
           placeholder="Enter Password"
           errorStyle={styles.error}
           errorMessage={errorMessage ? errorMessage : ''}
@@ -87,7 +84,7 @@ const AuthenticationForm = ({errorMessage, title, btnTitle, getData}) => {
       {title === 'Registration' ? (
         <View style={styles.bottom}>
           <Text style={styles.titleBottom}>Already registered?</Text>
-          <TouchableOpacity>
+          <TouchableOpacity onPress={navHandler}>
             <Text style={styles.touchtitleBottom}> Login</Text>
           </TouchableOpacity>
           <Text style={styles.titleBottom}> here!</Text>
@@ -121,8 +118,6 @@ const styles = StyleSheet.create({
     // borderColor: 'blue',
   },
   titleTop: {
-    // width: '100%',
-    // alignItems: 'center',
     marginVertical: 100,
     fontSize: 50,
     color: 'green',
@@ -132,7 +127,6 @@ const styles = StyleSheet.create({
     width: '100%',
     flexDirection: 'row',
     justifyContent: 'center',
-    // marginTop: 100,
     marginVertical: 115,
     alignItems: 'center',
     // borderWidth: 1,

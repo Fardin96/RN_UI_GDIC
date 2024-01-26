@@ -7,8 +7,14 @@
 
 import React from 'react';
 
-import {StyleSheet, Text, View} from 'react-native';
-import Authentication from './screens/Authentication';
+import {NavigationContainer} from '@react-navigation/native';
+import {createNativeStackNavigator} from '@react-navigation/native-stack';
+
+import Register from './components/authentication/Register';
+import Login from './components/authentication/Login';
+import Employee from './screens/Employee';
+
+const Stack = createNativeStackNavigator();
 
 // console.log('+-------------SERVER------------------+');
 // console.log('MONGODB_URI ', uri);
@@ -17,20 +23,16 @@ import Authentication from './screens/Authentication';
 
 function App() {
   return (
-    <View style={styles.root}>
-      {/* <Text style={{color: 'black'}}>hello, gdic</Text> */}
-      <Authentication />
-    </View>
+    <NavigationContainer>
+      <Stack.Navigator
+        initialRouteName="registration"
+        screenOptions={{headerShown: false}}>
+        <Stack.Screen name="registration" component={Register} />
+        <Stack.Screen name="login" component={Login} />
+        <Stack.Screen name="employee" component={Employee} />
+      </Stack.Navigator>
+    </NavigationContainer>
   );
 }
-
-const styles = StyleSheet.create({
-  root: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-    backgroundColor: 'white',
-  },
-});
 
 export default App;
