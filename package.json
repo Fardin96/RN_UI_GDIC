@@ -7,7 +7,8 @@
     "ios": "react-native run-ios",
     "lint": "eslint .",
     "start": "react-native start",
-    "test": "jest"
+    "test": "jest",
+    "cache-rest": "npx react-native start --reset-cache"
   },
   "dependencies": {
     "@rneui/base": "^4.0.0-rc.8",

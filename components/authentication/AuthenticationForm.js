@@ -40,12 +40,13 @@ const AuthenticationForm = ({errorMessage, title, btnTitle}) => {
     (async () => {
       try {
         const api = `${API_URL}/newUser`;
-        // console.log("the api is :", api);
+        console.log('the api is :', api);
 
         const data = {
           name: name,
           password: password,
         };
+        console.log('the data is :', data);
 
         const response = await fetch(api, {
           method: 'POST',
@@ -57,7 +58,7 @@ const AuthenticationForm = ({errorMessage, title, btnTitle}) => {
         });
 
         const userData = await response.json();
-        console.log("is this the user's data? ", userData);
+        console.log('expecting a token: ', userData);
       } catch (error) {
         console.log('Error fetching donors: ', error);
       }
