@@ -48,7 +48,7 @@ const Login = ({navigation}) => {
         });
 
         const resData = await res.json();
-        console.log('expecting a token: ', resData);
+        // console.log('expecting a token: ', resData);
 
         // TODO:
         if (resData === 'Please enter correct name and password') {

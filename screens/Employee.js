@@ -6,7 +6,7 @@ import {Text} from 'react-native';
 import Card from '../components/employees/Card';
 
 const Employee = ({navigation, route}) => {
-  const {id, name, age, salary} = route.params || {};
+  const {id, name, age, salary, newEmployee} = route.params || {};
 
   const [employees, setEmployees] = useState([]);
 
@@ -27,6 +27,13 @@ const Employee = ({navigation, route}) => {
       }
     })();
   }, []);
+
+  useEffect(() => {
+    if (newEmployee) {
+      // console.log('fresher: ', newEmployee);
+      setEmployees(prevEmployees => [...prevEmployees, newEmployee]);
+    }
+  }, [newEmployee]);
 
   return (
     <View style={styles.root}>

@@ -51,7 +51,6 @@ const Register = ({navigation}) => {
         // console.log('expecting a token: ', resData);
 
         if (resData.token === '') {
-          // console.log('error in REGISTER SCREEN: ', resData);
           setErr('Please enter valid name and password');
         } else if (resData === 'duplicate user!') {
           setErr('User already exists!');
@@ -59,7 +58,7 @@ const Register = ({navigation}) => {
           navHandler();
         }
       } catch (error) {
-        console.log('Error fetching donors: ', error);
+        console.log('Error registering new user: ', error);
       }
     })();
   };
