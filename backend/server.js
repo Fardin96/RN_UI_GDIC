@@ -47,7 +47,7 @@ app.use((err, req, res, next) => {
 
   // Send a specific response based on error status
   if (res.statusCode === 404) {
-    res.send('Not Found!');
+    res.send('Does this change!');
   } else {
     res.send(err.message);
   }
