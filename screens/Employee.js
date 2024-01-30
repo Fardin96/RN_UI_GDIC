@@ -4,29 +4,31 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import {Button} from '@rneui/themed';
 import {Text} from 'react-native';
 import Card from '../components/employees/Card';
+import {useGetEmpQuery} from '../redux-toolkit/feature/employee-api-slice';
 
 const Employee = ({navigation, route}) => {
   const {id, name, age, salary, newEmployee} = route.params || {};
 
   const [employees, setEmployees] = useState([]);
 
+  const {data, isError, error, isLoading} = useGetEmpQuery();
+
   useEffect(() => {
     (async () => {
       try {
         // todo:
         // - create api url @ .env
-        const response = await fetch(
-          'https://dummy.restapiexample.com/api/v1/employees',
-        );
-
-        const resData = await response.json();
-        setEmployees(resData.data);
-      } catch (error) {
-        // --list & handle errors
-        console.log('error fetching employee list: ', error);
+        if (isError) {
+          console.log('Error fetching employees list: ', error);
+        } else if (data.status === 'success') {
+          setEmployees(data.data);
+          // console.log('Seccess fetching employees list: ', data.data);
+        }
+      } catch (err) {
+        console.log('T/C Error fetching employee list: ', err);
       }
     })();
-  }, []);
+  }, [data, error, isError]);
 
   useEffect(() => {
     if (newEmployee) {
@@ -60,7 +62,9 @@ const Employee = ({navigation, route}) => {
       <ScrollView
         style={styles.scrollView}
         showsVerticalScrollIndicator={false}>
-        {typeof employees === 'undefined' || employees.length === 0 ? (
+        {isLoading ||
+        typeof employees === 'undefined' ||
+        employees.length === 0 ? (
           <View style={styles.loadingContainer}>
             <Text style={styles.loading}>Loading...</Text>
           </View>
