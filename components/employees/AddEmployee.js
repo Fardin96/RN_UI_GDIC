@@ -1,14 +1,8 @@
-import {
-  ScrollView,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View,
-} from 'react-native';
-import React, {useRef, useState} from 'react';
+import React, {useState} from 'react';
+import {StyleSheet, TouchableOpacity, View} from 'react-native';
+
 import Icon from 'react-native-vector-icons/AntDesign';
-import {Input, Button, TabView} from '@rneui/themed';
-import {Tab} from '@rneui/themed';
+import {TabView, Tab} from '@rneui/themed';
 
 import BasicInfo from './addEmployee/BasicInfo';
 import Skills from './addEmployee/Skills';
@@ -33,12 +27,6 @@ const AddEmployee = ({navigation}) => {
     newphone,
     newgender,
   ) => {
-    // console.log(firstName);
-    // console.log(lastName);
-    // console.log(dob);
-    // console.log(phone);
-    // console.log(gender);
-
     setFirstName(newfirstName);
     setLastName(newlastName);
     setDob(newdob);

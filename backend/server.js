@@ -35,7 +35,7 @@ app.use('/auth', authenticaitonRoute);
 
 // default status codes!
 app.use((req, res, next) => {
-  const err = new Error('Not Found!');
+  const err = new Error('Not Found Bitch!');
   err.status = 404;
   next(err);
 });
