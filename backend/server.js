@@ -26,10 +26,14 @@ connection.once('open', () => {
 });
 
 connection.on('error', () => {
-  console.log('Error connecting to database!');
+  console.log('Error connecting to mongobd database!');
 });
 
 // defining routes
+app.get('/', (req, res) => {
+  res.json('Finally connected!');
+});
+
 app.use('/newUser', userRoute);
 app.use('/auth', authenticaitonRoute);
 
@@ -47,7 +51,7 @@ app.use((err, req, res, next) => {
 
   // Send a specific response based on error status
   if (res.statusCode === 404) {
-    res.send('Does this change!');
+    res.send('Not Found!');
   } else {
     res.send(err.message);
   }
