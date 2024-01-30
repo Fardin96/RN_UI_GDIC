@@ -17,6 +17,7 @@ router.route('/login').post(async (req, res) => {
     // console.log('does the user exist?', userExists);
 
     if (!userExists) {
+      console.log('wrong credentials');
       return res.status(401).json('Please enter correct name and password');
     }
 
