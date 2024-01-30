@@ -1,3 +1,4 @@
+import React, {useRef, useState} from 'react';
 import {
   ScrollView,
   StyleSheet,
@@ -5,14 +6,18 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import React, {useRef, useState} from 'react';
+
 import Icon from 'react-native-vector-icons/AntDesign';
 import {Input, Button} from '@rneui/themed';
+
+import {useEditEmpMutation} from '../../redux-toolkit/feature/employee-api-slice';
 
 const EditInfo = ({navigation, route}) => {
   const {id, name, age, salary} = route.params;
 
   const [err, setErr] = useState(false);
+
+  const [editEmp] = useEditEmpMutation();
 
   const nameRef = useRef(name);
   const ageRef = useRef(age);
@@ -20,51 +25,38 @@ const EditInfo = ({navigation, route}) => {
 
   const onSubmit = async () => {
     try {
-      const api = `https://dummy.restapiexample.com/api/v1/update/${id}`;
-
       const data = {
+        id: id,
         name: nameRef.current.value,
         age: ageRef.current.value,
         salary: salaryRef.current.value,
       };
-      console.log('the data is :', data);
 
-      const res = await fetch(api, {
-        method: 'PUT',
-        headers: {
-          Accept: 'application/json',
-          'Content-type': 'application/json',
-        },
-        body: JSON.stringify(data),
-      });
+      const response = await editEmp(data);
+      // console.log('Response editing info: ', response);
 
-      const resData = await res.json();
-      console.log('expecting a token: ', resData);
-
-      if (resData.status === 'success') {
+      if (response.data.status === 'success') {
         navigation.navigate('employee', {
           id: id,
-          name: resData.data.name,
-          age: resData.data.age,
-          salary: resData.data.salary,
+          name: response.data.data.name,
+          age: response.data.data.age,
+          salary: response.data.data.salary,
         });
-      } else if (resData.message === 'Too Many Attempts.') {
+      } else if (response.data.message === 'Too Many Attempts.') {
+        console.log('error editing employee: ', response.data.error);
         setErr(prev => !prev);
       }
     } catch (error) {
-      console.log('Error fetching donors: ', error);
+      console.log('T/C error editing employee: ', error);
     }
   };
 
-  // todo:
-  // - emp id styling
   return (
     <ScrollView
       style={styles.root}
       contentContainerStyle={styles.root.containerStyle}>
       <View style={styles.topContainer}>
-        <Text style={styles.titleTop}>EMPLOYEE ID:</Text>
-        <Text style={styles.titleTop}>{id}</Text>
+        <Text style={styles.titleTop}>EMPLOYEE ID: {id}</Text>
 
         <TouchableOpacity
           style={styles.icContainer}
@@ -125,7 +117,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'space-between',
     marginTop: 15,
-    // marginRight: 20,
     marginBottom: 10,
     paddingHorizontal: 15,
     // borderWidth: 1,
@@ -139,7 +130,7 @@ const styles = StyleSheet.create({
     // borderWidth: 1,
     // borderColor: 'blue',
   },
-  titleTop: {color: 'black'},
+  titleTop: {fontSize: 15, color: 'black'},
   btn: {
     buttonStyle: {backgroundColor: 'green'},
     titleStyle: {fontWeight: 'bold', fontSize: 23},

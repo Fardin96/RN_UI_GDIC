@@ -19,8 +19,16 @@ export const empApiSlice = createApi({
           body: data,
         }),
       }),
+      editEmp: builder.mutation({
+        query: ({id, ...data}) => ({
+          url: `/update/${id}`,
+          method: 'PUT',
+          body: data,
+        }),
+      }),
     };
   },
 });
 
-export const {useGetEmpQuery, useCreateEmpMutation} = empApiSlice;
+export const {useGetEmpQuery, useCreateEmpMutation, useEditEmpMutation} =
+  empApiSlice;
