@@ -31,7 +31,7 @@ connection.on('error', () => {
 
 // defining routes
 app.get('/', (req, res) => {
-  res.json('Finally connected!');
+  res.json('Connection successful!');
 });
 
 app.use('/newUser', userRoute);

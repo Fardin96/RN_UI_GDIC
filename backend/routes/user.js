@@ -8,7 +8,7 @@ router.route('/add').post(async (req, res) => {
   const name = req.body.name;
   const password = await passwordHash(req.body.password);
 
-  // console.log('this req is hitting: ', name, password);
+  console.log('this req is hitting: ', name, password);
 
   try {
     const userNameExists = await User.findOne({name});
