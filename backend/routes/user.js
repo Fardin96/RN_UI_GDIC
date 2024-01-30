@@ -20,7 +20,7 @@ router.route('/add').post(async (req, res) => {
         password,
       });
 
-      // console.log('sending to server: ', newUser);
+      console.log('sending to server: ', newUser);
 
       const token = jwt_token(newUser._id);
 
