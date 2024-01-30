@@ -2,65 +2,51 @@ import React, {useState} from 'react';
 
 import AuthenticationForm from './AuthenticationForm';
 
-import {API_URL} from '@env';
 import {userValidation} from '../../functions/validation';
+import {useAddUserMutation} from '../../redux-toolkit/feature/authentication/auth-slice';
 
 const Register = ({navigation}) => {
   const [err, setErr] = useState('');
+
+  const [addUser] = useAddUserMutation();
 
   const navHandler = () => {
     navigation.navigate('login');
   };
 
-  const onSubmit = userData => {
-    const user = {
+  const onSubmit = async userData => {
+    const data = {
       name: userData.name,
       password: userData.password,
     };
 
     // input validation
-    if (!userValidation(user)) {
+    if (!userValidation(data)) {
       setErr('Please enter valid name and password');
       return;
     }
 
-    (async () => {
-      try {
-        // TODO:
-        // after deploying to vercel, replace API_URL or, find some other method -> .env add to github?
-        // handle duplicate
-        const api = `${API_URL}/newUser/add/`;
-        // console.log('the api is :', api);
+    try {
+      // TODO:
+      // after deploying to vercel, replace API_URL or, find some other method -> .env add to github?
+      // handle duplicate
 
-        const data = {
-          name: user.name,
-          password: user.password,
-        };
-        // console.log('the data is :', data);
+      // console.log('the data is :', data);
 
-        const res = await fetch(api, {
-          method: 'POST',
-          headers: {
-            Accept: 'application/json',
-            'Content-type': 'application/json',
-          },
-          body: JSON.stringify(data),
-        });
+      const response = await addUser(data);
+      // console.log('response adding user: ', response);
 
-        const resData = await res.json();
-        // console.log('expecting a token: ', resData);
-
-        if (resData.token === '') {
-          setErr('Please enter valid name and password');
-        } else if (resData === 'duplicate user!') {
-          setErr('User already exists!');
-        } else {
-          navHandler();
-        }
-      } catch (error) {
-        console.log('Error registering new user: ', error);
+      if (response.error?.data === 'duplicate user!') {
+        setErr('User already exists!');
+      } else if (response.data.token === '') {
+        setErr('Please enter valid name and password');
+      } else if (response.data.token) {
+        // token valid -> login screen
+        navHandler();
       }
-    })();
+    } catch (error) {
+      console.log('Error registering new user: ', error);
+    }
   };
 
   // console.log('+-------------Register------------------+');

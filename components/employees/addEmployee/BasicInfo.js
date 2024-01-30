@@ -1,6 +1,6 @@
-import {ScrollView, StyleSheet, Text, View} from 'react-native';
 import React, {useRef, useState} from 'react';
-import Icon from 'react-native-vector-icons/AntDesign';
+import {ScrollView, StyleSheet, Text, View} from 'react-native';
+
 import {Input, Button} from '@rneui/themed';
 
 const BasicInfo = ({navigation, onChange, getBasicInfo}) => {
