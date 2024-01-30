@@ -3,6 +3,8 @@ import {createApi, fetchBaseQuery} from '@reduxjs/toolkit/query/react';
 export const empApiSlice = createApi({
   reducerPath: 'employee-api-slice',
   baseQuery: fetchBaseQuery({
+    // todo:
+    // - create api url @ .env
     baseUrl: 'https://dummy.restapiexample.com/api/v1',
   }),
   endpoints: builder => {
@@ -10,8 +12,15 @@ export const empApiSlice = createApi({
       getEmp: builder.query({
         query: () => '/employees',
       }),
+      createEmp: builder.mutation({
+        query: data => ({
+          url: '/create',
+          method: 'POST',
+          body: data,
+        }),
+      }),
     };
   },
 });
 
-export const {useGetEmpQuery} = empApiSlice;
+export const {useGetEmpQuery, useCreateEmpMutation} = empApiSlice;

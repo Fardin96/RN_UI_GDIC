@@ -1,10 +1,14 @@
-import {StyleSheet, Text, View} from 'react-native';
 import React, {useState} from 'react';
+import {StyleSheet, Text, View} from 'react-native';
 
 import {Button} from '@rneui/themed';
 
+import {useCreateEmpMutation} from '../../../redux-toolkit/feature/employee-api-slice';
+
 const Preview = ({navigation, newEmpData}) => {
   const [err, setErr] = useState('');
+
+  const [createEmp] = useCreateEmpMutation();
 
   // console.log(newEmpData);
   const navHandler = (id, name, age, salary) => {
@@ -20,8 +24,6 @@ const Preview = ({navigation, newEmpData}) => {
 
   const onSubmit = async () => {
     try {
-      const api = 'https://dummy.restapiexample.com/api/v1/create';
-
       const name = newEmpData.firstName + ' ' + newEmpData.lastName;
       const data = {
         name: name,
@@ -30,49 +32,40 @@ const Preview = ({navigation, newEmpData}) => {
       };
       // console.log('the data is :', data);
 
-      const res = await fetch(api, {
-        method: 'POST',
-        headers: {
-          Accept: 'application/json',
-          'Content-type': 'application/json',
-        },
-        body: JSON.stringify(data),
-      });
+      const response = await createEmp(data);
 
-      const resData = await res.json();
-      // console.log('expecting a new employee: ', resData);
-
-      // todo:
-      // test api -> error cases
-      if (resData === '') {
-        // console.log('error in employee creation response: ', resData);
-        // setErr('Please enter valid name and password');
-      } else if (resData.message === 'Too Many Attempts.') {
-        setErr('Please try again!');
-      } else if (resData.status === 'success') {
+      if (response.data.error) {
+        console.log('Error creating a new employee: ', response.data.error);
+      } else if (response.data.status === 'success') {
+        // get new emp data -> employess screen
+        // console.log('Success creating a new employee: ', response.data.data);
         navHandler(
-          resData.data.id,
-          resData.data.name,
-          resData.data.age,
-          resData.data.salary,
+          response.data.data.id,
+          response.data.data.name,
+          response.data.data.age,
+          response.data.data.salary,
         );
+      } else if (response.data.message === 'Too Many Attempts.') {
+        setErr(response.data.message);
+        console.log('Response creating new employee: ', response.data.message);
       }
     } catch (error) {
-      console.log('Error creating new employee: ', error);
+      console.log('T/C Error creating new employee: ', error);
     }
   };
 
-  // todo: styling
   return (
-    <View>
-      <Text style={{color: 'black'}}>First Name: {newEmpData.firstName}</Text>
-      <Text style={{color: 'black'}}>Last Name: {newEmpData.lastName}</Text>
-      <Text style={{color: 'black'}}>Date of Birth: {newEmpData.dob}</Text>
-      <Text style={{color: 'black'}}>Contact : {newEmpData.phone}</Text>
-      <Text style={{color: 'black'}}>Gender : {newEmpData.gender}</Text>
-      <Text style={{color: 'black'}}>Skills : {newEmpData.skill}</Text>
-      <Text style={{color: 'black'}}>Experience: {newEmpData.exp} Years</Text>
-      <Text style={{color: 'black'}}>Experience Level: {newEmpData.lvl}</Text>
+    <View style={styles.root}>
+      <View style={styles.details}>
+        <Text style={styles.font}>First Name: {newEmpData.firstName}</Text>
+        <Text style={styles.font}>Last Name: {newEmpData.lastName}</Text>
+        <Text style={styles.font}>Date of Birth: {newEmpData.dob}</Text>
+        <Text style={styles.font}>Contact : {newEmpData.phone}</Text>
+        <Text style={styles.font}>Gender : {newEmpData.gender}</Text>
+        <Text style={styles.font}>Skills : {newEmpData.skill}</Text>
+        <Text style={styles.font}>Experience: {newEmpData.exp} Years</Text>
+        <Text style={styles.font}>Experience Level: {newEmpData.lvl}</Text>
+      </View>
 
       {err === '' ? <Text /> : <Text style={styles.err}>{err}</Text>}
 
@@ -92,6 +85,20 @@ const Preview = ({navigation, newEmpData}) => {
 export default Preview;
 
 const styles = StyleSheet.create({
+  root: {
+    flex: 1,
+    alignItems: 'center',
+    // borderWidth: 1,
+    // borderColor: 'red',
+  },
+  details: {
+    width: '100%',
+    marginVertical: 15,
+    paddingHorizontal: 15,
+    // borderWidth: 1,
+    // borderColor: 'blue',
+  },
+  font: {color: 'black', fontSize: 25},
   btn: {
     buttonStyle: {backgroundColor: 'green'},
     titleStyle: {fontWeight: 'bold', fontSize: 23},

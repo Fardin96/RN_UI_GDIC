@@ -1,10 +1,16 @@
-import {ScrollView, StyleSheet, TouchableOpacity, View} from 'react-native';
 import React, {useEffect, useState} from 'react';
+import {
+  ScrollView,
+  StyleSheet,
+  TouchableOpacity,
+  View,
+  Text,
+} from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 import {Button} from '@rneui/themed';
-import {Text} from 'react-native';
-import Card from '../components/employees/Card';
+
 import {useGetEmpQuery} from '../redux-toolkit/feature/employee-api-slice';
+import Card from '../components/employees/Card';
 
 const Employee = ({navigation, route}) => {
   const {id, name, age, salary, newEmployee} = route.params || {};
@@ -16,11 +22,9 @@ const Employee = ({navigation, route}) => {
   useEffect(() => {
     (async () => {
       try {
-        // todo:
-        // - create api url @ .env
         if (isError) {
           console.log('Error fetching employees list: ', error);
-        } else if (data.status === 'success') {
+        } else if (!isLoading && data.status === 'success') {
           setEmployees(data.data);
           // console.log('Seccess fetching employees list: ', data.data);
         }
@@ -28,7 +32,7 @@ const Employee = ({navigation, route}) => {
         console.log('T/C Error fetching employee list: ', err);
       }
     })();
-  }, [data, error, isError]);
+  }, [data, error, isError, isLoading]);
 
   useEffect(() => {
     if (newEmployee) {
