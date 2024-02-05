@@ -7,7 +7,6 @@ const initialState = {
     password: '',
     jwt_token: '',
   },
-  status: 'idle',
 };
 
 export const userInfoSlice = createSlice({

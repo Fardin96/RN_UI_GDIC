@@ -24,7 +24,7 @@ const Stack = createNativeStackNavigator();
 
 console.log('+-------------SERVER------------------+');
 console.log('URI: ', API_URL);
-// console.log('PORT', port);
+// console.log('GLOBAL STATE: ', );
 console.log('+-------------------------------------+');
 
 function App() {
@@ -42,10 +42,6 @@ function App() {
         </Stack.Navigator>
       </Provider>
     </NavigationContainer>
-
-    // <Employee />
-
-    // <EditInfo />
   );
 }
 

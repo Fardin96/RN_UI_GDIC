@@ -27,12 +27,6 @@ const Register = ({navigation}) => {
     }
 
     try {
-      // TODO:
-      // after deploying to vercel, replace API_URL or, find some other method -> .env add to github?
-      // handle duplicate
-
-      // console.log('the data is :', data);
-
       const response = await addUser(data);
       // console.log('response adding user: ', response);
 
@@ -48,11 +42,6 @@ const Register = ({navigation}) => {
       console.log('Error registering new user: ', error);
     }
   };
-
-  // console.log('+-------------Register------------------+');
-  // // console.log('API_URL: ', API_URL);
-  // console.log('user: ', user);
-  // console.log('+-------------------------------------+');
 
   return (
     <AuthenticationForm

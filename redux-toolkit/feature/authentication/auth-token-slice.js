@@ -20,8 +20,7 @@ export const authTokenSlice = createSlice({
 export const {setToken, resetToken} = authTokenSlice.actions;
 
 export const selectToken = state => {
-  //   console.log('state:', state.authToken);
-  state.authToken.value;
+  return state.authToken.value;
 };
 
 export default authTokenSlice.reducer;

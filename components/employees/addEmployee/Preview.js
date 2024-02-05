@@ -3,7 +3,7 @@ import {StyleSheet, Text, View} from 'react-native';
 
 import {Button} from '@rneui/themed';
 
-import {useCreateEmpMutation} from '../../../redux-toolkit/feature/employee-api-slice';
+import {useCreateEmpMutation} from '../../../redux-toolkit/feature/employee-info/employee-api-slice';
 
 const Preview = ({navigation, newEmpData}) => {
   const [err, setErr] = useState('');

@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, {useEffect, useState} from 'react';
 import {
   ScrollView,
@@ -8,9 +9,13 @@ import {
 } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 import {Button} from '@rneui/themed';
+import {useDispatch} from 'react-redux';
 
-import {useGetEmpQuery} from '../redux-toolkit/feature/employee-api-slice';
 import Card from '../components/employees/Card';
+
+import {useGetEmpQuery} from '../redux-toolkit/feature/employee-info/employee-api-slice';
+import {setEmpInfo} from '../redux-toolkit/feature/employee-info/emp-info-slice';
+import {resetToken} from '../redux-toolkit/feature/authentication/auth-token-slice';
 
 const Employee = ({navigation, route}) => {
   const {id, name, age, salary, newEmployee} = route.params || {};
@@ -18,6 +23,7 @@ const Employee = ({navigation, route}) => {
   const [employees, setEmployees] = useState([]);
 
   const {data, isError, error, isLoading} = useGetEmpQuery();
+  const dispatch = useDispatch();
 
   useEffect(() => {
     (async () => {
@@ -26,6 +32,7 @@ const Employee = ({navigation, route}) => {
           console.log('Error fetching employees list: ', error);
         } else if (!isLoading && data.status === 'success') {
           setEmployees(data.data);
+          dispatch(setEmpInfo(data.data));
           // console.log('Seccess fetching employees list: ', data.data);
         }
       } catch (err) {
@@ -41,6 +48,11 @@ const Employee = ({navigation, route}) => {
     }
   }, [newEmployee]);
 
+  const logoutHandler = () => {
+    navigation.navigate('login');
+    dispatch(resetToken);
+  };
+
   return (
     <View style={styles.root}>
       <View style={styles.topContainer}>
@@ -54,11 +66,7 @@ const Employee = ({navigation, route}) => {
           onPress={() => navigation.navigate('addEmployee')}
         />
 
-        <TouchableOpacity
-          style={styles.icContainer}
-          onPress={() => {
-            navigation.navigate('login');
-          }}>
+        <TouchableOpacity style={styles.icContainer} onPress={logoutHandler}>
           <Icon name="exit-outline" size={30} color="#900" />
         </TouchableOpacity>
       </View>
@@ -101,7 +109,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'space-between',
     marginTop: 15,
-    // marginRight: 20,
     marginBottom: 10,
     paddingHorizontal: 15,
     // borderWidth: 1,

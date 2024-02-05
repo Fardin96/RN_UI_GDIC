@@ -10,7 +10,7 @@ import {
 import Icon from 'react-native-vector-icons/AntDesign';
 import {Input, Button} from '@rneui/themed';
 
-import {useEditEmpMutation} from '../../redux-toolkit/feature/employee-api-slice';
+import {useEditEmpMutation} from '../../redux-toolkit/feature/employee-info/employee-api-slice';
 
 const EditInfo = ({navigation, route}) => {
   const {id, name, age, salary} = route.params;
