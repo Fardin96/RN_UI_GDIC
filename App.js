@@ -18,12 +18,14 @@ import EditInfo from './components/employees/EditInfo';
 import AddEmployee from './components/employees/AddEmployee';
 import {store} from './redux-toolkit/store/store';
 
+import {API_URL} from '@env';
+
 const Stack = createNativeStackNavigator();
 
-// console.log('+-------------SERVER------------------+');
-// console.log('MONGODB_URI ', uri);
+console.log('+-------------SERVER------------------+');
+console.log('URI: ', API_URL);
 // console.log('PORT', port);
-// console.log('+-------------------------------------+');
+console.log('+-------------------------------------+');
 
 function App() {
   return (
